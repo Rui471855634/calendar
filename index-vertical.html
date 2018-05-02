@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <title>主页</title>
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="css/bui.css" />
+    <link rel="stylesheet" href="font/iconfont.css" />
+    <link rel="stylesheet" href="css/calender.css" />
+    <!-- 依赖库 手机调试的js引用顺序如下 -->
+    <script src="js/zepto.js"></script>
+    <script src="js/plugins/fastclick.js"></script>
+    <!-- BUI库 -->
+    <script src="js/bui.js"></script>
+    <!-- 业务库 -->
+    <script src="js/calender.min.js"></script>
+    <script>
+        bui.ready(function(){
+            // 绑定日历
+            var date = new Date();
+            var uiCalender = calender({
+                id: "#cl_panel",
+                type: "month",
+                date: date,
+                direction: "y",
+                pageHandler: true,
+                lunarCalender: false,
+                pageNum: 4,
+                style: "miui",
+                onMove: function(){
+                    // changeColor();
+                    bui.hint("触发日历滑动");
+                },
+                onLoad: function(){
+                    bui.hint("日历加载完成");
+                },
+                callback: function(){
+                	if(!uiCalender) return;
+                    var date = uiCalender.getDate();
+                    $("#time").html("您选中的是：" + date.getFullYear() + "年" + (date.getMonth()+1) + "月" + (date.getDate()) + "日");
+                }
+            });
+
+            var date = uiCalender.getDate();
+            $("#time").html("您选中的是：" + date.getFullYear() + "年" + (date.getMonth()+1) + "月" + (date.getDate()) + "日");
+		    var height1 = $("#cl_panel .cl_header").height();
+		    var height2 = $("#cl_panel .cl_content .week_name .weekitem").height();
+		    var height3 = $("#cl_panel #cl_content #day_name div.dayitem").height();
+		    var height4 = height1+height2+height3*6+10;
+		    var height5 = height1+height2+height3*2+10;
+
+		    $(".today").on("click", function(){
+		    	var date = new Date();
+		    	uiCalender.setDate(date);
+		    })
+        });
+    </script>
+
+    <style>
+        #uiSwipe {
+            height:100%;
+    		background: #fff;
+        }
+        /*让滑动的目标显示*/
+        #uiSwipe .swipedown {
+            -webkit-transform: translate(0,0);
+            transform: translate(0,0);
+            z-index: 0;
+        }
+        .task_panel {
+            z-index: 10;
+            height: 100%;
+            background: #fff;
+		    margin-top: .1rem;
+		    border-top: .1rem solid #f8f8f8;
+		    overflow-y: auto;
+        }
+
+        .addition-box{
+		    position: absolute;
+		    right: .3rem;
+		    bottom: .3rem;
+		    z-index: 99;
+        }
+
+        .addition-item{
+		    width: .6rem;
+		    height: .6rem;
+		    border-radius: .6rem;
+		    -webkit-border-radius: .6rem;
+		    background-color: #3fbb7c;
+		    color: #fff;
+		    font-size: .3rem;
+		    line-height: .6rem;
+		    text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+<div class="bui-page">
+    <!-- <header class="bui-bar">
+        <div class="bui-bar-left">
+            <a class="bui-btn" onclick="bui.back();"><i class="icon-back"></i></a>
+        </div>
+        <div class="bui-bar-main">页面标题</div>
+        <div class="bui-bar-right">
+        </div>
+    </header> -->
+    <main>
+        <!-- 正文内容 -->
+
+		<div id="uiSwipe" class="wrap red">
+			<div class="swipedown">
+				<div class="calender_panel" id="cl_panel"></div>
+			</div>
+		</div>
+        <div class="addition-box">
+            <div class="addition-item today">今</div>
+        </div>
+    </main>
+    <footer>
+        <!-- 底部内容 -->
+
+    </footer>
+</div>
+</body>
+</html>
